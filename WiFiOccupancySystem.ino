@@ -1,5 +1,5 @@
 #include <Arduino.h>
-extern "C" {
+extern "C" { //SDK
   #include <user_interface.h>
 }
 
