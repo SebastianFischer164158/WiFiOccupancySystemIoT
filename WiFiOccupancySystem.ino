@@ -1,5 +1,4 @@
 #include <Arduino.h>
-
 extern "C" {
   #include <user_interface.h>
 }
@@ -11,6 +10,8 @@ extern "C" {
 #define TYPE_DATA             0x02
 #define SUBTYPE_PROBE_REQUEST 0x04
 
+// type name:bitlength
+// i.e. rssi is only 8 bits (2 bytes) wide. 
 struct RxControl {
  signed rssi:8; // signal intensity of packet
  unsigned rate:4;
@@ -38,20 +39,20 @@ struct RxControl {
  unsigned:12;
 };
 
-struct SnifferPacket{
+struct SnifferPacket{  //management packet declaration!!  https://carvesystems.com/wp-content/uploads/2019/02/sniffer-data-structures-png-1280x720-q85-crop-subsampling-2-upscale-5c5c4e2603914.jpg
     struct RxControl rx_ctrl;
     uint8_t data[DATA_LENGTH];
     uint16_t cnt;
     uint16_t len;
 };
 
-// Declare each custom function (excluding built-in, such as setup and loop) before it will be called.
-// https://docs.platformio.org/en/latest/faq.html#convert-arduino-file-to-c-manually
+
 static void showMetadata(SnifferPacket *snifferPacket);
 static void ICACHE_FLASH_ATTR sniffer_callback(uint8_t *buffer, uint16_t length);
 static void printDataSpan(uint16_t start, uint16_t size, uint8_t* data);
 static void getMAC(char *addr, uint8_t* data, uint16_t offset);
 void channelHop();
+
 
 static void showMetadata(SnifferPacket *snifferPacket) {
 
@@ -62,13 +63,26 @@ static void showMetadata(SnifferPacket *snifferPacket) {
   uint8_t frameSubType = (frameControl & 0b0000000011110000) >> 4;
   uint8_t toDS         = (frameControl & 0b0000000100000000) >> 8;
   uint8_t fromDS       = (frameControl & 0b0000001000000000) >> 9;
+  
 
+  
   // Only look for probe request packets
   if (frameType != TYPE_MANAGEMENT ||
       frameSubType != SUBTYPE_PROBE_REQUEST)
         return;
 
-  Serial.print("RSSI: ");
+  //if(toDS == 0 && fromDS == 0){
+    //RA,DA 
+  //}
+
+
+
+  Serial.print("Value of toDS: ");
+  Serial.print(toDS,BIN);
+  Serial.print(" Value of FromDS: ");
+  Serial.print(fromDS,BIN);
+
+  Serial.print(" RSSI: ");
   Serial.print(snifferPacket->rx_ctrl.rssi, DEC);
 
   Serial.print(" Ch: ");
