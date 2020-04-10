@@ -11,7 +11,7 @@ typedef enum
     WIFI_PKT_CTRL,
     WIFI_PKT_DATA,
     WIFI_PKT_MISC,
-} wifi_promiscuous_pkt_type_t;
+} wifi_promiscuous_frame_type_t;
 
 typedef enum
 {
@@ -75,6 +75,6 @@ typedef struct
 {
     wifi_ieee80211_mac_hdr_t hdr;
     uint8_t payload[2]; /* network data ended with 4 bytes csum (CRC32) */
-} wifi_ieee80211_packet_t;
+} wifi_ieee80211_frame_t;
 
 #endif

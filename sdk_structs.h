@@ -57,6 +57,6 @@ typedef struct {
 typedef struct {
     wifi_pkt_rx_ctrl_t rx_ctrl; /**< metadata header */
     uint8_t payload[0];       /**< Data or management payload. Length of payload is described by rx_ctrl.sig_len. Type of content determined by packet type argument of callback. */
-} wifi_promiscuous_pkt_t;
+} wifi_promiscuous_frame_t;
 
 #endif

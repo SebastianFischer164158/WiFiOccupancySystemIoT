@@ -13,7 +13,7 @@ void mac2str(const uint8_t* ptr, char* string)
 }
 
 //Parses 802.11 packet type-subtype pair into a human-readable string
-const char* wifi_pkt_type2str(wifi_promiscuous_pkt_type_t type, wifi_mgmt_subtypes_t subtype)
+const char* wifi_pkt_type2str(wifi_promiscuous_frame_type_t type, wifi_mgmt_subtypes_t subtype)
 {
   switch(type)
   {
